@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI/CD Demo Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 CI/CD Demo Website</h1>
+            <p class="subtitle">Auto-deployed from GitHub to your MacBook!</p>
+        </header>
+        
+        <main>
+            <div class="card">
+                <h2>Welcome, Vikash! 👋</h2>
+                <p>This website automatically deploys when you push to GitHub.</p>
+                <p>Deployed at: <span id="timestamp"></span></p>
+            </div>
+            
+            <div class="card">
+                <h3>How it works:</h3>
+                <ol>
+                    <li>Edit code on MacBook</li>
+                    <li>Push to GitHub</li>
+                    <li>Self-hosted runner detects change</li>
+                    <li>Website updates at localhost:8080</li>
+                </ol>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Deployed via GitHub Actions | User: rvvikash</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
