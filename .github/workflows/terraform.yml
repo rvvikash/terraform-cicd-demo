@@ -1,14 +1,76 @@
-name: Deploy Frontend
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  deploy:
+  # Job 1: Validate (runs on all branches and PRs)
+  validate:
+    name: Validate Code
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Check if HTML files exist
+        run: |
+          echo "Validating files..."
+          if [ ! -f "public/index.html" ]; then
+            echo "ERROR: index.html not found!"
+            exit 1
+          fi
+          if [ ! -f "public/style.css" ]; then
+            echo "ERROR: style.css not found!"
+            exit 1
+          fi
+          if [ ! -f "public/script.js" ]; then
+            echo "ERROR: script.js not found!"
+            exit 1
+          fi
+          echo "✅ All required files present"
+      
+      - name: Validate HTML syntax
+        run: |
+          echo "Checking HTML syntax..."
+          # Basic check - ensure HTML tags are closed
+          if grep -q "<html" public/index.html && grep -q "</html>" public/index.html; then
+            echo "✅ HTML syntax looks good"
+          else
+            echo "❌ HTML syntax error!"
+            exit 1
+          fi
+      
+      - name: Check for broken links (basic)
+        run: |
+          echo "Checking for common issues..."
+          if grep -q "href=\"\"" public/index.html; then
+            echo "⚠️  Warning: Empty href found"
+          fi
+          echo "✅ Basic checks passed"
+
+  # Job 2: Deploy (ONLY runs on push to main, NOT on PRs)
+  deploy:
+    name: Deploy to Server
+    runs-on: self-hosted
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      
       - name: Deploy Website
         run: ./deploy.sh
+      
+      - name: Verify Deployment
+        run: |
+          sleep 3
+          if lsof -i :8080 >/dev/null 2>&1; then
+            echo "✅ Deployment successful!"
+            echo "🌐 Website: http://localhost:8080"
+          else
+            echo "❌ Deployment failed!"
+            exit 1
+          fi
