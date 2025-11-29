@@ -1,10 +1,24 @@
 #!/bin/bash
 echo "Deploying website..."
+
 DEPLOY_DIR="/tmp/cicd-website"
 mkdir -p "$DEPLOY_DIR"
 cp -r public/* "$DEPLOY_DIR/"
+
+echo "Stopping old server..."
 pkill -f "python3 -m http.server 8080" 2>/dev/null
-sleep 1
+sleep 2
+
+echo "Starting web server..."
 cd "$DEPLOY_DIR"
-nohup python3 -m http.server 8080 > /tmp/webserver.log 2>&1 &
-echo "Deployment complete! Visit http://localhost:8080"
+python3 -m http.server 8080 </dev/null >/tmp/webserver.log 2>&1 &
+disown
+
+sleep 2
+
+if lsof -i :8080 >/dev/null 2>&1; then
+    echo "SUCCESS! Server running on http://localhost:8080"
+else
+    echo "ERROR: Server failed to start"
+    exit 1
+fi
