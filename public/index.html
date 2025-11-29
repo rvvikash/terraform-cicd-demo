@@ -2,10 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Broken Code Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI/CD Demo - Home</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>This HTML is BROKEN - missing closing tags!</h1>
-    <p>This should NOT deploy to production!
-<!-- Missing </body> and </html> tags! -->
+    <div class="container">
+        <header>
+            <h1>🚀 CI/CD Pipeline Demo</h1>
+            <p class="subtitle">Automated deployment with GitHub Actions!</p>
+        </header>
+        
+        <main>
+            <div class="card">
+                <h2>Welcome, Vikash! 👋</h2>
+                <p>This website demonstrates a complete CI/CD pipeline:</p>
+                <ul>
+                    <li>✅ GitHub Actions automation</li>
+                    <li>✅ Self-hosted runner on MacBook</li>
+                    <li>✅ PR validation before deployment</li>
+                    <li>✅ Automatic deployment after merge</li>
+                    <li>✅ Code review workflow</li>
+                </ul>
+                <p>Last updated: <span id="timestamp"></span></p>
+            </div>
+            
+            <div class="card" style="background: #fff3cd; border-left-color: #ffc107;">
+                <h3>🔗 Explore</h3>
+                <p><a href="about.html" style="color: #667eea; font-weight: bold; text-decoration: none;">→ About This Project</a></p>
+            </div>
+            
+            <div class="card">
+                <h3>📊 How It Works</h3>
+                <ol>
+                    <li>Developer creates feature branch</li>
+                    <li>Makes changes and pushes to GitHub</li>
+                    <li>Creates Pull Request</li>
+                    <li>CI validates code (no deployment)</li>
+                    <li>Team reviews PR</li>
+                    <li>After approval, merge to main</li>
+                    <li>CI validates + deploys automatically</li>
+                    <li>Website updates at localhost:8080</li>
+                </ol>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Repository: terraform-cicd-demo | User: rvvikash | Server: localhost:8080</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
