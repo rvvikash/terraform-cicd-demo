@@ -1,21 +1,31 @@
-# Simple Terraform configuration
-# This creates a local text file
-
 terraform {
   required_version = ">= 1.0"
 }
 
-resource "local_file" "welcome" {
-  filename = "${path.module}/welcome.txt"
-  content  = "Hello from Terraform CI/CD! This pipeline runs automatically on every push!"
+resource "local_file" "live_test" {
+  filename = "${path.module}/live-test.txt"
+  content  = "🚀 LIVE CI/CD TEST - Pushed at: ${timestamp()}\n👤 User: vikash raj\n💻 From: MacBook"
 }
 
-output "file_path" {
-  value       = local_file.welcome.filename
-  description = "Path to the created file"
+resource "local_file" "proof" {
+  filename = "${path.module}/proof.txt"
+  content  = <<-EOT
+    ============================================
+    ✅ CI/CD PIPELINE VERIFICATION
+    ============================================
+    
+    This file was created by GitHub Actions
+    running on GitHub's cloud server.
+    
+    NOT created on your MacBook!
+    Created on: Ubuntu server (GitHub Actions)
+    
+    If you see this in the workflow logs,
+    your CI/CD pipeline is working perfectly!
+    ============================================
+  EOT
 }
 
-output "file_content" {
-  value       = local_file.welcome.content
-  description = "Content of the file"
+output "test_result" {
+  value = "✅ CI/CD Pipeline Working!"
 }
